@@ -1,0 +1,101 @@
+{% extends 'dashboard/dash_index.html' %}
+
+{% block content %}
+
+<div class="panel-header bg-primary-gradient">
+    <div class="page-inner py-5">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+            <div>
+                <h2 class="text-white pb-2 fw-bold">Foydalanuvchilar</h2>
+                <h5 class="text-white op-7 mb-2">Foydalanuvchilar boshqarish sahifasi</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4 mt-5">
+    <div class="card card-secondary">
+        <div class="card-body skew-shadow">
+            <h5 class="op-8">Foydalanuvchilar soni</h5>
+            <h1>{{user_count}}</h1>
+            <div class="pull-right">
+                <h3 class="fw-bold op-8"></h3>
+            </div>
+        </div>
+    </div>
+    </div>
+                <div class="card-header">
+									<div class="card-head-row card-tools-still-right">
+										<h4 class="card-title">Foydalanuvchilar</h4>
+									 
+									</div>
+									<p class="card-category">
+									Foydalanuvchilar boshqarish paneli</p>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="table-responsive table-hover table-sales">
+												<table class="table">
+													<tbody>
+                                                        <td>№</td>
+															<td>Nomi</td>
+															<td>email</td>
+															<td>Telefon raqami</td>
+															<td>Yangiliklar soni</td>
+															<td>O`chirish</td>
+                                                        {% for key, value in my_dict.items %}
+														<tr>
+															<td>
+                                                                {{forloop.counter}}
+															</td>
+															<td>{{key.username}}</td>
+															<td>{{key.email}}</td>
+															<td>{{key.phone}}</td>
+															<td>{{value}}</td>
+															<!-- <td>{{us.username}}</td>
+															<td>{{us.phone}}</td>
+															<td>{{news}}</td> -->
+															<!-- <td class="card-category">{{new.created_at}}</td> -->
+                                                            <td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#user-delete{{key.id}}"><i class="mdi mdi-trash-can"></i></button>                 
+                                                            </td>
+														</tr>
+                                                        
+                                                       
+                                                        
+                                                        
+                                                        <div class="modal fade" id="user-delete{{key.id}}" tabindex="-1" aria-labelledby="exampleModalFullscreenSmLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-fullscreen-sm-down">
+                                                                <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                  <h6 class="modal-title" id="exampleModalFullscreenSmLabel"></h6>
+                                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <!-- <p class="mb-0"></p> -->
+                                                                    <div class="card-body">
+                                                                        <form method="post" action="{% url 'user_delete' %}">
+                                                                            {% csrf_token %}
+                                                                            <div class="row">
+                                                                                <div class="col-12">
+                                                                                    <div class="mb-3">
+                                                                                        <label for="username">{{key.username}} Foydalanuvchisini o`chirmoqchimisiz? </label>
+                                                                                        <input type="hidden" value="{{key.id}}" name="id">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-12 text-end">
+                                                                                    <button type="submit" class="btn btn-de-danger px-4">O`chirish</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                  <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                          {% endfor %}
+{% endblock %}

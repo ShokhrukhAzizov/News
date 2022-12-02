@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <!-- partial -->
+  <div class="flash-news-banner">
+    <div class="container">
+      <div class="d-lg-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <span class="badge badge-dark mr-3">Yangiliklar</span>
+          <p class="mb-0">
+            Yangiliklar saytiga Xush kelibsiz!!!
+          </p>
+        </div>
+        <div class="d-flex">
+          
+          <span class="mr-3 text-danger">{{showtime}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-wrapper">
+    <div class="container">
+      
+      <div class="row" data-aos="fade-up">
+        <div class="col-lg-3 stretch-card grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h2>Categoriya</h2>
+              <ul class="vertical-menu">
+                {% for cat in categoryia %}
+                <li><a href="{% url 'news_page_url' cat.slug %}">{{cat.title}}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9 stretch-card grid-margin">
+          <div class="card">
+            <div class="card-body">
+              {% for n in news %}
+              <div class="row">
+                <div class="col-sm-4 grid-margin">
+                  <div class="position-relative">
+                    <div class="rotate-img">
+                      {% if n.image %}
+                      <img
+                        src="{{n.image.url}}"
+                        alt="thumb"
+                        class="img-fluid"
+                      />
+                      {% endif %}
+                    </div>
+                    <div class="badge-positioned">
+                      <span class="badge badge-danger font-weight-bold"
+                        >Flash news</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-8  grid-margin">
+                  <h2 class="mb-2 font-weight-600">
+                   {{n.title}}
+                  </h2>
+                  <div class="fs-13 mb-2">
+                    <span class="mr-2"> </span>{{n.created_at|timesince}} ago
+                  </div>
+                  <a href="{% url 'news_detail_url' n.slug %}"><p class="mb-0">
+                    {{n.body|truncatewords:50}}
+                  </p></a>
+                </div>
+              </div>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- main-panel ends -->
+  <!-- container-scroller ends -->
+
+  <!-- partial:partials/_footer.html -->
+{% endblock %}

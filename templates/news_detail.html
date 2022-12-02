@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+#knopka{
+  border: white;
+}
+
+.btn-flip {
+  opacity: 1;
+  outline: 0;
+  color: #fff;
+  line-height: 40px;
+  position: relative;
+  text-align: center;
+  letter-spacing: 1px;
+  display: inline-block;
+  text-decoration: none;
+  font-family: "Open Sans";
+  text-transform: uppercase;
+}
+.btn-flip:hover:after {
+  opacity: 1;
+  transform: translateY(0) rotateX(0);
+}
+.btn-flip:hover:before {
+  opacity: 0;
+  transform: translateY(50%) rotateX(90deg);
+}
+.btn-flip:after {
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  color: #ffffff;
+  display: block;
+  transition: 0.5s;
+  position: absolute;
+  background: #f70000;
+  content: attr(data-back);
+  transform: translateY(-50%) rotateX(90deg);
+}
+.btn-flip:before {
+  top: 0;
+  left: 0;
+  opacity: 1;
+  color: #adadaf;
+  display: block;
+  padding: 0 30px;
+  line-height: 40px;
+  transition: 0.5s;
+  position: relative;
+  background: #323237;
+  content: attr(data-front);
+  transform: translateY(0) rotateX(0);
+}
+</style>
+
+<div class="content-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card" data-aos="fade-up">
+            <div class="card-body">
+              <div class="aboutus-wrapper">
+                <h1 class="mt-5">
+                  {{new_get.title}}
+                </h1>
+                <p class="font-weight-600 fs-15">
+                  {{new_get.body}}</p>
+                  <br>
+                  {% if new_get.image %}
+                <img src="{{new_get.image.url}}" alt="banner" class="img-fluid mb-5"/>
+                {% endif %}
+                <form action="{% url 'like_url' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" value="{{new_get.id}}" name="news_id">
+                  <button id="knopka" type="submit" class="btn-flip" data-back="Like" data-front="{{like}}"></button>
+                </form>
+                <h4>{{views.quantity}}</h4>
+                <div class="fs-13 mb-2">Kategoriya: {{new_get.category.title}}</div>
+                <div class="fs-13 mb-2">Muallif: {{new_get.author}}</div>
+                <div class="fs-13 mb-2">{{new_get.created_at}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'create_news.html' %}
+{% load static %}
+{% block content %}
+<!-- CSS only -->
+<style>
+    .ursol{
+        width: 80%;
+        height: 80vh;
+    }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<div class="ursol">
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Yangiliklar</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Siz qo'shgan yangiliklar soni</h6>
+      <p class="card-text">{{news}}</p>
+      </div>
+  </div>
+  <table class="table table-hover">
+      <tbody>
+        <td>№</td>
+        <td>Yangilik</td>
+        <td>Muallif</td>
+        <td>Kategoriyasi</td>
+        <td>Sana</td>
+        <td>O'zgartirish</td>
+        <td>O'chirish</td>
+        <tr>
+            {% for new in newses %}
+                <td>
+                    {{forloop.counter}}
+                </td>
+                <td>{{new.title}}</td>
+                <td>{{new.author}}</td>
+                <td>{{new.category}}</td>
+                <td>{{new.created_at}}</td>
+                <td><button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#new-edit{{new.id}}"><i><img src="{% static 'D:\Django\News\static\dashboard\icons\edit-3.svg' %}" alt=""></i></button></td>
+                <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#new-delete{{new.id}}"><img src="{% static 'D:\Django\News\static\dashboard\icons\trash-2.svg' %}" alt=""></button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% for new in newses %}
+<form action="{% url 'user_news_edit' %}" method="post">
+{% csrf_token %}
+<div class="modal fade" id="new-edit{{new.id}}" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">{{new.title}} ni o'zgartitish</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <br><br>
+                <div class="input-group input-group-sm mb-3">
+                <input type="hidden" value="{{new.id}}" name="id">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Nomi</span>
+                <input type="text" class="form-control" value="{{new.title}}" name="name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+              <br><br>
+              <div class="input-group">
+                <span class="input-group-text">Yangilik</span>
+                <input name="body" value="{{new.body}}" class="form-control" aria-label="With textarea">
+              </div><br><br>
+              <div class="input-group">
+                <input type="file" name="load" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+              </div>
+              <br><br>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Kategoriya</label>
+                <select class="form-select" name="categoriya" id="inputGroupSelect01">
+                  <option selected="{{cat.id}}">Kategoriya...</option>
+                  {% for cat in category %}
+                  {% if cat == new.category %}
+                  <option value="{{cat.id}}" selected>{{cat.title}}</option>
+                  {% else %}
+                  <option value="{{cat.id}}">{{cat.title}}</option>
+                  {% endif %}
+                  {% endfor %}
+
+                </select>
+            </form>
+              </div>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+          <button type="submit" class="btn btn-primary">O'zgartirish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form action="{% url 'users_news_delete' %}" method="post">
+    {% csrf_token %}
+  <div class="modal fade" id="new-delete{{new.id}}" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalCenterTitle">Boshqaruv paneli</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>{{new.title}} ni o'chirmoqchimisiz?</p>
+          <input type="hidden" value="{{new.id}}" name="id">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+          <button type="submit" class="btn btn-danger">O'chirish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+  {% endfor %}
+<!-- JavaScript Bundle with Popper -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+{% endblock %}

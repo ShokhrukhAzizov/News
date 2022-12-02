@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .karkas{
+        margin-left: 300px;
+    }
+
+    .knopka{
+        margin-left: 500px;
+    }
+
+    #cateoriya{
+        margin-left: 224px;
+        }
+</style>
+
+<div class="karkas">
+<form  method="post" id="custom-step" enctype="multipart/form-data">
+    {% csrf_token %}
+    <nav>
+        <div class="nav nav-tabs mt-5 mb-5" id="nav-tab">
+            <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1">Yangilik qo'shish</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane active" id="step1">
+            <h4 class="card-title mt-3 mb-1">Yangilik qo'shish</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row mb-2">
+                        
+                        <label for="txtFirstNameBilling" class="col-lg-3 col-form-label text-end">Sarlavha</label>
+                        <div class="col-lg-9">
+                            <input id="txtFirstNameBilling" name="name" type="text" class="form-control">
+                        </div>
+                    </div><!--end form-group-->
+                </div><!--end col-->
+                <div class="col-md-6">
+                </div><!--end col-->
+            </div><!--end row-->
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row mb-2">
+                        <label for="txtAddress1Billing" class="col-lg-3 col-form-label text-end">Yangilik</label>
+                        <div class="col-lg-9">
+                            <input id="txtAddress1Billing" name="news" rows="4" class="form-control"></input>
+                        </div>
+                    </div><!--end form-group-->
+                </div><!--end col-->
+                </div><!--end col-->
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row mb-2 required">
+                        <label for="txtCityBilling" class="col-lg-3 col-form-label text-end ">Rasm qo'shish</label>
+                        <div class="col-lg-9">
+                            <input id="txtCityBilling" name="load" type="file" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div><!--end row-->
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row mb-2">
+                        <select name="category" id="cateoriya">
+                            {% for cat in category %}
+                            <option value="{{cat.id}}">{{cat.title}}</option>
+                            {% endfor %}
+                        </select>
+                    </div><!--end form-group-->
+                </div><!--end col-->
+                <div class="col-md-6">
+                </div><!--end col-->
+            </div><!--end row-->                           
+            <div class="row">
+                <div class="col-md-6 mb-5">
+                    <div class="form-group row mb-2">
+
+                    </div><!--end form-group-->
+                </div><!--end col-->
+                <div class="col-md-6">
+                </div><!--end col-->
+            </div><!--end row-->     
+        </div>
+     
+            <div class="knopka">
+                <button type="reset" id="step3Prev" class="btn btn-secondary float-start mb-5">Tozalash</button>
+                <button type="submit" id="step3Next" class="btn btn-primary float-end mb-5">Saqlash</button>                                         
+            </div> 
+        </div>
+
+    </div>
+</form>
+</div>
+<script>
+    let message_ele = document.getElementById("message_container");
+
+    setTimeout(function(){
+       message_ele.style.display = "none";
+      //  message_ele.style.height = '10vh'
+    }, 3000);
+    // Timeout is 1 sec, you can change it
+</script>
+{% endblock %}

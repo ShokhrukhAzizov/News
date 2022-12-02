@@ -1,0 +1,184 @@
+{% extends 'dashboard/dash_index.html' %}
+
+{% block content %}
+<div class="panel-header bg-primary-gradient">
+    <div class="page-inner py-5">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+            <div>
+                <h2 class="text-white pb-2 fw-bold">Kategoriya</h2>
+                <h5 class="text-white op-7 mb-2">Kategoriya yaratish va boshqarish sahifasi</h5>
+            </div>
+            <div class="ml-md-auto py-2 py-md-0">
+                <button class="btn btn-secondary btn-round" data-bs-toggle="modal" data-bs-target="#exampleModalFullscreenSm">Kategoriya qo'shish</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4 mt-5">
+    <div class="card card-secondary">
+        <div class="card-body skew-shadow">
+            <h1>{{category}}</h1>
+            <h5 class="op-8">Kategoriyalar soni</h5>
+            <div class="pull-right">
+                <h3 class="fw-bold op-8"></h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row row-card-no-pd">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-head-row card-tools-still-right">
+										<h4 class="card-title">Users Geolocation</h4>
+										<div class="card-tools">
+											<button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-angle-down"></span></button>
+											<button class="btn btn-icon btn-link btn-primary btn-xs btn-refresh-card"><span class="fa fa-sync-alt"></span></button>
+											<button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-times"></span></button>
+										</div>
+									</div>
+									<p class="card-category">
+									Map of the distribution of users around the world</p>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="table-responsive table-hover table-sales">
+												<table class="table">
+													<tbody>
+                                                        {% for cat in categorys %}
+														<tr>
+															<td>
+                                                                {{forloop.counter}}
+															</td>
+															<td>{{cat.title}}</td>
+															<td class="text-right">
+                                                                <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#cat-edit{{cat.id}}"><i class="mdi mdi-briefcase-edit-outline"></i></button>                 </td>
+                                                                <td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cat-delete{{cat.id}}"><i class="mdi mdi-trash-can"></i></button>                 
+                                                                </td>
+                                                            </td>
+														</tr>
+                                                        {% endfor %}
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="mapcontainer">
+												<div id="map-example" class="vmap"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                      {% for c in categorys %}
+                    <!-- edit category -->
+                    <div class="modal fade" id="cat-edit{{c.id}}" tabindex="-1" aria-labelledby="exampleModalFullscreenSmLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen-sm-down">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h6 class="modal-title" id="exampleModalFullscreenSmLabel">Kategoriya o`zgartirish</h6>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- <p class="mb-0"></p> -->
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'category_edit_url' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label for="username">Kategoriya nomi</label>
+                                                    <input type="text" class="form-control" id="username"  value="{{c.title}}" required name="name">
+                                                    <input type="hidden" value="{{c.id}}" name="id">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 text-end">
+                                                <button type="submit" class="btn btn-de-primary px-4">O`zgartirish</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <div class="modal fade" id="cat-delete{{c.id}}" tabindex="-1" aria-labelledby="exampleModalFullscreenSmLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen-sm-down">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h6 class="modal-title" id="exampleModalFullscreenSmLabel">Kategoriya o`zgartirish</h6>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- <p class="mb-0"></p> -->
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'category_delete_url' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label for="username">{{c.title}} kategoriyasini o`chirmoqchimisiz? </label>
+                                                    <input type="hidden" value="{{c.id}}" name="id">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 text-end">
+                                                <button type="submit" class="btn btn-de-danger px-4">O`chirish</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {% endfor %}
+
+                      <div class="modal fade" id="exampleModalFullscreenSm" tabindex="-1" aria-labelledby="exampleModalFullscreenSmLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen-sm-down">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h6 class="modal-title" id="exampleModalFullscreenSmLabel">Kategoriya qo`shish</h6>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- <p class="mb-0"></p> -->
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'category_add_url' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label for="username">Kategoriya nomi</label>
+                                                    <input type="text" class="form-control" id="username"  placeholder="Yangiliklar" required name="name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 text-end">
+                                                <button type="submit" class="btn btn-de-primary px-4">Yaratish</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+{% endblock %}

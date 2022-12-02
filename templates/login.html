@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .input-joy{
+        margin-left: 450px;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+    .form-control{
+        width: 400px;
+    }
+
+    .ism{
+        position: absolute;
+        margin-left: 370px;
+        margin-top: 180px;
+        font-weight: 800;
+    }
+    .kod{
+        position: absolute;
+        margin-left: 380px;
+        margin-top: 255px;
+        font-weight: 800;
+    }
+    .kirish-knopka{
+        margin-left: 70px;
+        font-weight: 900;
+        
+    }
+
+</style>
+{% for m in messages %}
+{{m}}
+{% endfor %}
+<p class="ism">Username</p>
+<p class="kod">Parol</p>
+<div class="card-body">                                    
+    <div class="general-label">
+        <form method="post">
+           
+            {% csrf_token %}
+                <div class="input-joy">
+                <label class="mt-5"  for="horizontalInput1">
+                    <input type="text" class="form-control" id="horizontalInput1" name="name" placeholder="Username">
+                    <input type="password" class="form-control mt-4" id="horizontalInput2" name="parol" placeholder="parol">
+                    <div class="custom-control custom-checkbox mt-3">
+                              <input type="checkbox" class="custom-control-input" id="horizontalCheckbox" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                              <label class="custom-control-label" for="horizontalCheckbox">Eslab qolish</label>
+                              <div class="kirish-knopka">
+                              <button type="submit" class="btn btn-de-primary mt-5">Kirish</button>
+                            
+                            </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                </form>           
+ 
+{% endblock %}
